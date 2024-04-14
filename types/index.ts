@@ -1,10 +1,29 @@
+export type TIconName =
+  | "dashboard"
+  | "compass"
+  | "menu-expand"
+  | "menu-close"
+  | "logout"
+  | "list"
+  | "bar-chart"
+  | "pencil"
+  | "upload"
+  | "add"
+  | "image"
+  | "check"
+  | "up-down";
 export interface ISidebarRoute {
-  iconName: string;
+  iconName: TIconName;
   label: string;
   url: string;
 }
 
 export interface IIconLibItem {
-  name: string;
+  iconName: TIconName;
   icon: () => JSX.Element;
+}
+
+export interface IComboBoxOpt {
+  value: string;
+  label: string;
 }

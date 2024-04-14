@@ -1,8 +1,9 @@
 import { getIcon } from "@/lib/utils";
+import { TIconName } from "@/types";
 
 type IIconTextProps = {
   label: string;
-  iconName: string;
+  iconName: TIconName;
 };
 
 type DivProps = React.DetailedHTMLProps<
@@ -11,11 +12,11 @@ type DivProps = React.DetailedHTMLProps<
 > &
   IIconTextProps;
 
-export default function IconText(props: DivProps) {
+export default function IconText({ iconName, label, ...props }: DivProps) {
   return (
     <div className={`flex items-center gap-2 ${props.className}`} {...props}>
-      <span>{getIcon(props.iconName)}</span>
-      <span>{props.label}</span>
+      <span>{getIcon(iconName)}</span>
+      <span>{label}</span>
     </div>
   );
 }
