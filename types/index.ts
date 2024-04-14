@@ -11,7 +11,9 @@ export type TIconName =
   | "add"
   | "image"
   | "check"
-  | "up-down";
+  | "up-down"
+  | "search"
+  | "cross";
 export interface ISidebarRoute {
   iconName: TIconName;
   label: string;

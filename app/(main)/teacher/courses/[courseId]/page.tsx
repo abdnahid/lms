@@ -6,6 +6,7 @@ import { DescriptionForm } from "./_components/description-form";
 import prisma from "@/lib/prismaDB";
 import { IconBadge } from "@/components/common/IconBadge";
 import { ImageUploadForm } from "./_components/ImageUploadForm";
+import { CategoryForm } from "./_components/CategoryForm";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth();
@@ -24,6 +25,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   if (!course) {
     return redirect("/");
   }
+  const categories = await prisma.category.findMany();
 
   const requiredFields = [
     course.title,
@@ -68,6 +70,11 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             <TitleForm initialData={course} courseId={course.id} />
             <DescriptionForm initialData={course} courseId={course.id} />
             <ImageUploadForm initialData={course} courseId={course.id} />
+            <CategoryForm
+              categories={categories}
+              courseId={params.courseId}
+              category={course.categoryId || undefined}
+            />
             {/* <ImageForm
               initialData={course}
               courseId={course.id}

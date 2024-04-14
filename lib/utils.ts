@@ -11,6 +11,7 @@ import {
   MenuCloseIcon,
   MenuExpandIcon,
   PencilIcon,
+  SearchIcon,
   UpDownIcon,
   UploadIcon,
 } from "@/assets/Icons/icons";
@@ -36,6 +37,8 @@ const IconsLib: IIconLibItem[] = [
   { iconName: "image", icon: ImageIcon },
   { iconName: "check", icon: CheckIcon },
   { iconName: "up-down", icon: UpDownIcon },
+  { iconName: "search", icon: SearchIcon },
+  { iconName: "cross", icon: CrossIcon },
 ];
 
 export const getIcon = (name: TIconName): JSX.Element => {
