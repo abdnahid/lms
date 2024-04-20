@@ -7,6 +7,8 @@ import prisma from "@/lib/prismaDB";
 import { IconBadge } from "@/components/common/IconBadge";
 import { ImageUploadForm } from "./_components/ImageUploadForm";
 import { CategoryForm } from "./_components/CategoryForm";
+import PriceForm from "./_components/PriceForm";
+import { AttachmentForm } from "./_components/AttachmentForm";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth();
@@ -19,6 +21,9 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     where: {
       id: params.courseId,
       userId,
+    },
+    include: {
+      attachments: true,
     },
   });
 
@@ -75,57 +80,33 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
               courseId={params.courseId}
               category={course.categoryId || undefined}
             />
-            {/* <ImageForm
-              initialData={course}
-              courseId={course.id}
-            />
-            <CategoryForm
-              initialData={course}
-              courseId={course.id}
-              options={categories.map((category) => ({
-                label: category.name,
-                value: category.id,
-              }))}
-            /> */}
           </div>
-          {/* <div className="space-y-6">
+          <div className="space-y-6">
             <div>
               <div className="flex items-center gap-x-2">
-                <IconBadge icon={ListChecks} />
-                <h2 className="text-xl">
-                  Course chapters
-                </h2>
+                <IconBadge iconName="list" />
+                <h2 className="text-xl">Course chapters</h2>
               </div>
-              <ChaptersForm
+              {/* <ChaptersForm
                 initialData={course}
                 courseId={course.id}
-              />
+              /> */}
             </div>
             <div>
               <div className="flex items-center gap-x-2">
-                <IconBadge icon={CircleDollarSign} />
-                <h2 className="text-xl">
-                  Sell your course
-                </h2>
+                <IconBadge iconName="dollar" />
+                <h2 className="text-xl">Sell your course</h2>
               </div>
-              <PriceForm
-                initialData={course}
-                courseId={course.id}
-              />
+              <PriceForm initialData={course} courseId={course.id} />
             </div>
             <div>
               <div className="flex items-center gap-x-2">
-                <IconBadge icon={File} />
-                <h2 className="text-xl">
-                  Resources & Attachments
-                </h2>
+                <IconBadge iconName="file" />
+                <h2 className="text-xl">Resources & Attachments</h2>
               </div>
-              <AttachmentForm
-                initialData={course}
-                courseId={course.id}
-              />
+              <AttachmentForm initialData={course} courseId={course.id} />
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </>

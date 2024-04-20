@@ -13,7 +13,10 @@ export type TIconName =
   | "check"
   | "up-down"
   | "search"
-  | "cross";
+  | "cross"
+  | "dollar"
+  | "file"
+  | "load";
 export interface ISidebarRoute {
   iconName: TIconName;
   label: string;

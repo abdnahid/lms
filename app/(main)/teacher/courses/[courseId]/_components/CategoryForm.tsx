@@ -2,8 +2,6 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -12,10 +10,6 @@ import { Button } from "@/components/ui/button";
 import IconText from "@/components/common/IconText";
 import Combobox from "@/components/common/ComboBox";
 import { Category } from "@prisma/client";
-
-interface CategoryFormProps {
-  category?: string;
-}
 
 const categorySchema = z.object({
   category: z.string().min(1, {
@@ -33,8 +27,8 @@ export const CategoryForm = ({
   categories: Category[];
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [currentCategory, setCurrentCategory] = useState<string>(
-    category || "No category"
+  const [currentCategory, setCurrentCategory] = useState<string | undefined>(
+    category
   );
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -44,9 +38,7 @@ export const CategoryForm = ({
   const onSubmit = async (values: z.infer<typeof categorySchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, {
-        categoryId: categories.find(
-          (category) => category.name === values.category
-        )?.id,
+        categoryId: currentCategory,
       });
       toast.success("Course category is updated");
       toggleEdit();
@@ -67,7 +59,7 @@ export const CategoryForm = ({
   };
 
   return (
-    <div className="mt-6 rounded-md p-4 bg-cardBg dark:bg-cardBg-dark shadow-md">
+    <div className="mt-6 rounded-md p-4 bg-cardBg dark:bg-cardBg-dark shadow-md space-y-3">
       <div className="font-medium flex items-center justify-between">
         Course Category
         <Button onClick={toggleEdit} variant="ghost">
@@ -79,7 +71,11 @@ export const CategoryForm = ({
         </Button>
       </div>
       {!isEditing && (
-        <p className="text-sm mt-2 dark:text-gray-300">{category}</p>
+        <p className="text-sm mt-2 dark:text-gray-300">
+          {currentCategory
+            ? categories.find((cat) => cat.id === currentCategory)?.name
+            : "No Category"}
+        </p>
       )}
       {isEditing && (
         <>
@@ -92,7 +88,11 @@ export const CategoryForm = ({
           />
           <Button
             type="button"
-            onClick={() => onSubmit({ category: currentCategory })}
+            onClick={() => {
+              if (currentCategory) {
+                onSubmit({ category: currentCategory });
+              }
+            }}
           >
             Save
           </Button>

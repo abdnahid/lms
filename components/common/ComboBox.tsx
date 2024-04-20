@@ -15,8 +15,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { IconBadge } from "./IconBadge";
 import { IComboBoxOpt } from "@/types";
+import { cn, getIcon } from "@/lib/utils";
 
 const Combobox = ({
   options,
@@ -28,6 +28,9 @@ const Combobox = ({
   handleChange: (optionId: string) => void;
 }) => {
   const [open, setOpen] = React.useState(false);
+  const [currentVal, setCurrentVal] = React.useState<string | undefined>(
+    selectedVal
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -38,10 +41,10 @@ const Combobox = ({
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {selectedVal
-            ? options.find((option) => option.value === selectedVal)?.label
+          {currentVal
+            ? options.find((option) => option.value === currentVal)?.label
             : "Select option..."}
-          <IconBadge iconName="up-down" />
+          <span className="text-lg">{getIcon("up-down")}</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -53,12 +56,20 @@ const Combobox = ({
               <CommandItem
                 key={option.value}
                 value={option.value}
-                onSelect={(currentValue) => {
-                  handleChange(currentValue);
+                onSelect={(value) => {
+                  setCurrentVal(value);
+                  handleChange(value);
                   setOpen(false);
                 }}
               >
-                <IconBadge iconName="check" />
+                <span
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    currentVal === option.value ? "opacity-100" : "opacity-0"
+                  )}
+                >
+                  {getIcon("check")}
+                </span>
                 {option.label}
               </CommandItem>
             ))}

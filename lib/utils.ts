@@ -5,8 +5,11 @@ import {
   CompassIcon,
   CrossIcon,
   DashboardIcon,
+  DollarIcon,
+  FileIcon,
   ImageIcon,
   ListIcon,
+  LoadIcon,
   LogoutIcon,
   MenuCloseIcon,
   MenuExpandIcon,
@@ -39,6 +42,9 @@ const IconsLib: IIconLibItem[] = [
   { iconName: "up-down", icon: UpDownIcon },
   { iconName: "search", icon: SearchIcon },
   { iconName: "cross", icon: CrossIcon },
+  { iconName: "dollar", icon: DollarIcon },
+  { iconName: "file", icon: FileIcon },
+  { iconName: "load", icon: LoadIcon },
 ];
 
 export const getIcon = (name: TIconName): JSX.Element => {
@@ -48,4 +54,11 @@ export const getIcon = (name: TIconName): JSX.Element => {
   } else {
     return CrossIcon();
   }
+};
+
+export const formatPrice = (price: number) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price);
 };
